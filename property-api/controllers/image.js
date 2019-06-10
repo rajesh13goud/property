@@ -1,17 +1,18 @@
-const multer = require('multer');
-const jwt = require('jsonwebtoken');
-const ocr = require('./ocr');
-const ipfs = require('./ipfs');
+//const multer = require('multer');
+//const jwt = require('jsonwebtoken');
+//const ocr = require('./ocr');
+//const ipfs = require('./ipfs');
 //const cookieParser = require('cookie-parser');
-var upload = multer();
-const imageHandler = (upload.any(), (req, res) => {
-const {image} = req.body;
-if(!image) {
-    res.status(400).json('unable to upload files')
-} else if(image){
-    console.log(req.body);
-}
-
+//var upload = multer();
+const imageHandler = ((req, res,db) => {
+    const {id} = req.body;
+            db('users').where('id', '=',id)
+            .increment('entries',1)
+            .returning('entries')
+            .then(entries => {
+                console.log(entries);
+            })
+            .catch(err => res.status(400).json('not found'))
 })
 
 module.exports = {

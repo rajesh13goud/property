@@ -22,3 +22,7 @@ function ipfsUpload(data, callback) {
 
 
 exports.ipfsUpload = ipfsUpload;
+// let IPFS = require('ipfs-http-client');
+// let ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+
+// exports.ipfs =  ipfs;
