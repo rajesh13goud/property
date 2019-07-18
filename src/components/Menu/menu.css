@@ -1,16 +1,32 @@
+@font-face {
+    font-family: 'Pencil Letters Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pencil Letters Regular'), url('PencilLetters.woff') format('woff');
+    }
+.logo {
+    font-family: 'Pencil Letters Regular';
+    font-weight: 200;
+    font-size: 3rem;
+    color: darkblue;
+}
 .toolbar {
     position: fixed;
     left:0;
     top: 0;
     width: 100%;
+    display: flex
     /* background: red; */
     /* height: 56%; */
 }
 
 .toolbar__navigation { 
     display:  flex;
+    color: blue;
     height: 100%;
     padding: 0 1rem;
+    animation: infinite;
+    
 }
 
 .toolbar__logo a {

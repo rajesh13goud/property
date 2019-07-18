@@ -1,5 +1,8 @@
 
 import React from 'react';
+// import Gas from '../imageLink/gas';
+// import { Redirect } from 'react-router-dom'
+
 // import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 const Navigation = ({onRouteChange, isSignedIn}) => {

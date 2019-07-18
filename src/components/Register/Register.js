@@ -25,7 +25,7 @@ class Register extends React.Component {
             this.setState({mobile: event.target.value})
         }
         onSubmitSignIn = () => {
-            fetch('http://localhost:3001/register', {
+            fetch('http://localhost:4000/register', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

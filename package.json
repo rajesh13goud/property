@@ -8,6 +8,7 @@
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
+    "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
@@ -23,21 +24,30 @@
     "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",
     "react-google-maps": "^9.4.5",
+    "react-hook-form": "^3.11.9",
     "react-particles-js": "^2.6.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
     "react-spring": "^8.0.20",
     "react-swipeable-views": "^0.13.3",
     "react-tilt": "^0.1.4",
+    "react-wait": "^0.3.0",
     "reactstrap": "^8.0.0",
     "tachyons": "^4.11.1",
+    "web3": "^1.0.0-beta.15",
     "words-to-num": "^0.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "client": "PORT=3005 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "property-api": "npm run start --prefix property-api",
+    "start": " concurrently \"npm run property-api\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajesh13goud/property-management.git"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -54,5 +64,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:4000"
 }
