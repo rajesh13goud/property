@@ -1,6 +1,6 @@
 import React from 'react';
-const axios = require('axios');
-const web3 = require('web3');
+// const axios = require('axios');
+// const web3 = require('web3');
 
 class Gas extends React.Component{
     constructor(props){
@@ -17,7 +17,7 @@ async componentDidMount(){
       this.setState({gasprice: gasPrice['message']})
       this.setState({eth: gasPrice['txCost']})
       .then(response => {console.log(response.json())})
-      this.props.onRouteChange('home');
+      this.props.onRouteChange('blockchain');
   
   
 //   window.addEventListener('load', async () => {

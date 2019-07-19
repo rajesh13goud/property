@@ -128,12 +128,12 @@ app.post("/sendImage", upload.any(), (req, res) => {
         if (result.status == "error") {
           return res.send(result);
         }
-        console.log('resss', result);
+        console.log("resss", result);
       }
     );
     // res.send(result)
     setTimeout(function() {
-      res.redirect("/save/" + assetid);
+      res.redirect("/gas/");
     }, 3000);
   });
   // res.redirect("/addBlockchain/" + assetid);
@@ -141,6 +141,7 @@ app.post("/sendImage", upload.any(), (req, res) => {
 
 app.get("/gas", (req, res) => {
   //  var assetid = req.assetid;
+  let assetid = req.params.assetid;
   gasPrice.getGasPrice(result => {
     let obj = {
       message: result.gasPrice,
@@ -148,10 +149,9 @@ app.get("/gas", (req, res) => {
     };
     // console.log(obj);
     res.send(obj);
-
+    
     // res.redirect('/ethResults/:assetid/');
   });
-  // res.redirect('/addBlockchain/' + assetid);
 });
 app.get("/ethResults/:assetid/", (req, res) => {
   ethResults.ethResults(req, res);
@@ -170,17 +170,23 @@ app.get("/addBlockchain/:assetid", (req, res) => {
       trxused: result.trxUsed
     };
     res.send(obj);
-    console.log(obj);
+    console.log("ooobbbjj", obj);
   });
 });
 
 app.get("/save/:assetid/", function(req, res) {
-  let data = req.body;
-  let assetid = req.params.assetid;
+  // let data = req.result;
+  // console.log(data,'data')
+
   console.log("assetid is", req.params.assetid);
-  form3.postdb2(assetid, data, result => {
+  let assetid = req.params.assetid;
+  let multihash = req.params.multihash;
+  form3.postdb2(assetid, multihash, result => {
     res.send(result);
   });
+  setTimeout(() => {
+    res.redirect("/addblockchain/" + assetid);
+  }, 45000);
 });
 
 app.listen(4000, () => {
