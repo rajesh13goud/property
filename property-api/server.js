@@ -129,19 +129,20 @@ app.post("/sendImage", upload.any(), (req, res) => {
           return res.send(result);
         }
         console.log("resss", result);
+
+        res.send(assetid);
       }
     );
-    // res.send(result)
-    setTimeout(function() {
-      res.redirect("/gas/");
-    }, 3000);
+
+    // res.redirect("/save/" + assetid);
   });
+
   // res.redirect("/addBlockchain/" + assetid);
 });
 
 app.get("/gas", (req, res) => {
   //  var assetid = req.assetid;
-  let assetid = req.params.assetid;
+  // let assetid = req.params.assetid;
   gasPrice.getGasPrice(result => {
     let obj = {
       message: result.gasPrice,
@@ -149,9 +150,10 @@ app.get("/gas", (req, res) => {
     };
     // console.log(obj);
     res.send(obj);
-    
+
     // res.redirect('/ethResults/:assetid/');
   });
+  // res.redirect('/save/'+assetid);
 });
 app.get("/ethResults/:assetid/", (req, res) => {
   ethResults.ethResults(req, res);
@@ -180,15 +182,20 @@ app.get("/save/:assetid/", function(req, res) {
 
   console.log("assetid is", req.params.assetid);
   let assetid = req.params.assetid;
+  // console.log("save", assetid);
+  res.redirect("/saved/" + assetid);
+
+  // setTimeout(() => {
+  //   res.redirect("/addblockchain/" + assetid);
+  // }, 45000);
+});
+app.get("/saved/:assetid", function(req, res) {
+  let assetid = req.params.assetid;
   let multihash = req.params.multihash;
   form3.postdb2(assetid, multihash, result => {
     res.send(result);
   });
-  setTimeout(() => {
-    res.redirect("/addblockchain/" + assetid);
-  }, 45000);
 });
-
 app.listen(4000, () => {
   console.log("its working");
 });

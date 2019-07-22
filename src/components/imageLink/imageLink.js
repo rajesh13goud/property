@@ -21,7 +21,7 @@ class ImageLink extends React.Component {
       location: "",
       address: "",
       price: "",
-      asset_id: "",
+      asset_id: [],
       redirect: false
     };
 
@@ -82,20 +82,27 @@ class ImageLink extends React.Component {
     const url = "http://localhost:4000/sendImage";
     console.warn("formdata", formData);
     //    window.location.href = '/ocr';
-    axios.post(url, formData, config).then(response => {
-      console.log(JSON.stringify(response));
-      // window.location.href='/addBlockchain:/' + asset_id;
-      this.props.onRouteChange("gas");
-    });
+    axios
+      .post(url, formData, config)
+      .then(
+        response => JSON.stringify(response["data"])
+
+        // window.location.href='/addBlockchain:/' + asset_id;
+      )
+      .then(result => {
+        if (result["data"]) {
+          this.props.invoice(result)
+        }
+          console.log('resdeedde',result)
+
+        this.props.onRouteChange("gas");
+      });
   }
   render() {
     // const { asset_id } = this.props;
     return (
       <div>
-        <p className="light blue f3">
-          {"Add your property"}
-          {this.props.children}
-        </p>
+        <p className="light blue f3">{"Add your property"}</p>
         <div className="flex">
           <div className="form center pa4 br3 shadow-5">
             <fieldset id="land_details" className="ba b--transparent ph0 mh0">

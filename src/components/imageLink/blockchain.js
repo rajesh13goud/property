@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
-
+// import {ImageLink} from './imageLink';
 class BlockChain extends React.Component {
   constructor() {
     super();
@@ -38,14 +38,18 @@ class BlockChain extends React.Component {
 
   // onSaveBC = (e) => {
   //     e.preventDefault()
+
   async componentDidMount() {
     // this.setState({assetid: form.assetid})
     // let assetid = 'e195a578-93a5-491e-b362-b0004aaee306'
-    let assetid = window.location.pathname.split("/")[2];
-    // var assetid = this.props.asset_id;
+    let assetid = window.location.pathname.split("/")[3];
+
+    // let assetid = [ImageLink['asset_id']]
+    // console.log(window.location.pathname.split("/")[2]);
     console.log("asset in FEblock", assetid);
+
     const form = await (await fetch(
-      "http://localhost:4000/addBlockchain/" + assetid
+      "http://localhost:4000/save/" + assetid
     )).json();
     this.setState({ blockHash: form["blockhash"] });
     this.setState({ blockNumber: form["blocknumber"] });
@@ -64,8 +68,9 @@ class BlockChain extends React.Component {
   }
 
   // }
-  render() {
+  render(props) {
     // console.log('props', this.props);
+
     return (
       <body>
         <section>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 // import ReactDOM from 'react-dom';
 import Navigation from "./components/Navigation/Navigation";
 import Signin from "./components/Signin/Signin";
@@ -6,10 +7,12 @@ import Signin from "./components/Signin/Signin";
 import Logo from "./components/Logo/Logo";
 import Rank from "./components/Rank/Rank";
 import ErrorBoundry from "./components/Navigation/ErrorBoundry";
-import Gas from "./components/imageLink/gas";
+// import Gas from "./components/imageLink/gas";
 import ImageLink from "./components/imageLink/imageLink";
-import BlockChain from './components/imageLink/blockchain';
+// import BlockChain from "./components/imageLink/blockchain";
 import "./App.css";
+// import BlockChain from "./components/imageLink/blockchain";
+import { Blockchain } from "./components/imageLink/saveasset";
 
 const initialState = {
   input: "",
@@ -66,10 +69,11 @@ class App extends Component {
       }
     });
   };
+  
   invoice = data => {
     this.setState({
       user: {
-        assetid: data["assetid"]
+        assetid: data["data"]
         // blockNumber: data.blockNumber,
         // blockHash: data.blockHash,
         // contract: data.contract,
@@ -84,9 +88,9 @@ class App extends Component {
     } else if (route === "home") {
       this.setState({ isSignedIn: true });
     } else if (route === "gas") {
-      this.setState({isGasprice: true})
+      this.setState({ isGasprice: true });
     } else if (route === "blockchain") {
-      this.setState({isBlock:true})
+      this.setState({ isBlock: true });
     }
     this.setState({ route: route });
   };
@@ -112,7 +116,7 @@ class App extends Component {
               <ImageLink
                 onButtonSubmit={this.onButtonSubmit}
                 onRouteChange={this.onRouteChange}
-                assetid={this.state.asset_id}
+                
               />
 
               {/* {route === 'blockchain' ?
@@ -124,19 +128,14 @@ class App extends Component {
           </div>
         ) : route === "signin" ? (
           <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-        ) 
-        
-        :
-          <BlockChain />
-        } { route === "blockchain" ? (
-          <div>
-          {/* <BlockChain /> */}
-          </div>
-          ) 
-          : <Navigation />
-        }
-        
-        
+        ) : (
+          <Blockchain  invoice={this.invoice} />
+        )}
+        {route === "blockchain" ? (
+          <div>{/* <BlockChain /> */}</div>
+        ) : (
+          <Navigation />
+        )}
       </div>
     );
   }

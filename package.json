@@ -11,6 +11,7 @@
     "classnames": "^2.2.6",
     "concurrently": "^4.1.0",
     "cors": "^2.8.5",
+    "darkmode-js": "^1.4.0",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "mobx": "^5.9.4",
@@ -45,8 +46,8 @@
     "eject": "react-scripts eject",
     "property-api": "npm run start --prefix property-api",
     "start": " concurrently \"npm run property-api\" \"npm run client\"",
-    "predeploy":"npm run-script",
-    "deploy":"gh-pages -d build"
+    "predeploy": "npm run-script",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
