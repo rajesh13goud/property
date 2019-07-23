@@ -7,14 +7,33 @@ class Gas extends React.Component {
     super(props);
     this.state = {
       gasprice: "",
-      eth: ""
+      eth: "",
+      assetid: []
     };
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.Component = this.Component.bind(this);
   }
   async componentDidMount(e) {
-    const gasPrice = await (await fetch("http://localhost:4000/gas")).json()
-    this.setState({ gasprice: gasPrice["message"] })
-    this.setState({ eth: gasPrice["txCost"] })
+    const gasPrice = await (await fetch("http://localhost:4000/gas")).json();
+    this.setState({ gasprice: gasPrice["message"] });
+    this.setState({ eth: gasPrice["txCost"] });
+    this.setState({assetid: gasPrice["assetid"]})
+    // this.props.onRouteChange("blockchain");
+  }
+
+  async Component() {
+    // let assetid = this.state.assetid;
+    // let assetid = window.location.pathname.split("/")[2];
+    let assetid = this.props
+    console.log("thussss", assetid);
+    const form = await (await fetch(
+      "http://localhost:4000/saved/" + assetid
+    )).json();
+    this.setState({ blockHash: form["blockhash"] });
+    this.setState({ blockNumber: form["blocknumber"] });
+    this.setState({ contractAddress: form["contract"] });
+    this.setState({ gasUsed: form["gasused"] });
+    this.setState({ trxUsed: form["trxused"] });
     this.props.onRouteChange("blockchain");
   }
 
@@ -79,7 +98,7 @@ class Gas extends React.Component {
             <button
               className="start_btn mb-1"
               id="form"
-              onClick={this.componentDidMount}
+              onClick={this.Component}
             >
               Save To BlockChain
             </button>

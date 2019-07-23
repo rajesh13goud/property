@@ -49,7 +49,7 @@ class BlockChain extends React.Component {
     console.log("asset in FEblock", assetid);
 
     const form = await (await fetch(
-      "http://localhost:4000/save/" + assetid
+      "http://localhost:4000/saved/" + assetid
     )).json();
     this.setState({ blockHash: form["blockhash"] });
     this.setState({ blockNumber: form["blocknumber"] });

@@ -64,6 +64,8 @@ app.get("/", (req, res) => {
     if (err) {
       console.log(err.message);
     }
+    res.setHeader("set-cookie", "asset=assetid");
+
     res.send(db.users);
   });
 });
@@ -87,6 +89,7 @@ app.post("/seller", (req, res) => {
 });
 //app.get('/ocrResults/:assetId/:invoiceId', (req, res) =>{ocrResults.ocrRes(req,res)});
 app.post("/sendImage", upload.any(), (req, res) => {
+  var cookie = req.cookies;
   const { ownername, location, address, price } = req.body;
   if (!location || !ownername || !address || !price) {
     return res.status(400).json("incorrect form submission");
@@ -129,24 +132,25 @@ app.post("/sendImage", upload.any(), (req, res) => {
           return res.send(result);
         }
         console.log("resss", result);
-
         res.send(assetid);
+        // setTimeout(() => {
+        //   res.redirect("/saved/" + assetid);
+        // }, 6000);
       }
     );
-
-    // res.redirect("/save/" + assetid);
   });
-
   // res.redirect("/addBlockchain/" + assetid);
 });
 
 app.get("/gas", (req, res) => {
   //  var assetid = req.assetid;
   // let assetid = req.params.assetid;
+  // console.log('ekkade gas',assetid)
   gasPrice.getGasPrice(result => {
     let obj = {
       message: result.gasPrice,
-      txCost: result.txFee
+      txCost: result.txFee,
+      assetid: req.params.assetid
     };
     // console.log(obj);
     res.send(obj);
@@ -176,21 +180,26 @@ app.get("/addBlockchain/:assetid", (req, res) => {
   });
 });
 
-app.get("/save/:assetid/", function(req, res) {
+app.get("/save/:assetid", function(req, res) {
   // let data = req.result;
   // console.log(data,'data')
 
-  console.log("assetid is", req.params.assetid);
-  let assetid = req.params.assetid;
+  // let assetid = cookie;
+
   // console.log("save", assetid);
-  res.redirect("/saved/" + assetid);
+  // console.log(req.get("Cookie"));
+  let assetid = req.param.assetid;
+  console.log("assetid is", assetid);
+  // res.redirect("/saved/" + assetid);
 
   // setTimeout(() => {
   //   res.redirect("/addblockchain/" + assetid);
   // }, 45000);
 });
 app.get("/saved/:assetid", function(req, res) {
+  let cookie = req.cookies;
   let assetid = req.params.assetid;
+  console.log("asede", assetid);
   let multihash = req.params.multihash;
   form3.postdb2(assetid, multihash, result => {
     res.send(result);

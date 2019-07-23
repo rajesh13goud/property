@@ -6,7 +6,7 @@ import Logo from "./components/Logo/Logo";
 import Signin from "./components/Signin/Signin";
 import ImageLink from "./components/imageLink/imageLink";
 import Gas from "./components/imageLink/gas";
-import Blockchain from "./components/imageLink/blockchain";
+// import Blockchain from "./components/imageLink/blockchain";
 // import { Blockchain } from "./components/imageLink/saveasset";
 // import { Blockchain } from "./components/imageLink/saveasset";
 
@@ -71,8 +71,9 @@ class Server extends Component {
   };
   invoice = data => {
     this.setState({
-      assetid: data.assetid
+      data: data
     });
+    console.log("dasa", data);
   };
 
   onRouteChange = route => {
@@ -102,10 +103,7 @@ class Server extends Component {
         ) : route === "signin" ? (
           <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
-          <Blockchain
-            invoice={this.assetid}
-            onRouteChange={this.onRouteChange}
-          />
+          <Gas invoice={this.invoice} onRouteChange={this.onRouteChange} />
         )}
       </div>
     );

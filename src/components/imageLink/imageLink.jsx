@@ -91,9 +91,10 @@ class ImageLink extends React.Component {
       )
       .then(result => {
         if (result["data"]) {
-          this.props.invoice(result)
+          this.setState({ asset_id: result })
+          this.props.invoice(result);
         }
-          console.log('resdeedde',result)
+        console.log("resdeedde", result);
 
         this.props.onRouteChange("gas");
       });
