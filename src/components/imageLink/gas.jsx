@@ -1,14 +1,14 @@
 import React from "react";
 // const axios = require('axios');
 // const web3 = require('web3');
-
+// import ImageLink from '../imageLink/imageLink';
 class Gas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       gasprice: "",
       eth: "",
-      assetid: []
+      assetid: ""
     };
     this.componentDidMount = this.componentDidMount.bind(this);
     this.Component = this.Component.bind(this);
@@ -17,28 +17,27 @@ class Gas extends React.Component {
     const gasPrice = await (await fetch("http://localhost:4000/gas")).json();
     this.setState({ gasprice: gasPrice["message"] });
     this.setState({ eth: gasPrice["txCost"] });
-    this.setState({assetid: gasPrice["assetid"]})
+    this.setState({ assetid: gasPrice["assetid"] });
     // this.props.onRouteChange("blockchain");
   }
 
   async Component() {
     // let assetid = this.state.assetid;
     // let assetid = window.location.pathname.split("/")[2];
-    let assetid = this.props
-    console.log("thussss", assetid);
-    const form = await (await fetch(
-      "http://localhost:4000/saved/" + assetid
+    // let assetid = this.props
+    // console.log(this.props.match.params.assetid,'raar')
+    // console.log("thussss", assetid);
+    await (await fetch(
+      "http://localhost:4000/saved/" + this.state.assetid
     )).json();
-    this.setState({ blockHash: form["blockhash"] });
-    this.setState({ blockNumber: form["blocknumber"] });
-    this.setState({ contractAddress: form["contract"] });
-    this.setState({ gasUsed: form["gasused"] });
-    this.setState({ trxUsed: form["trxused"] });
+
     this.props.onRouteChange("blockchain");
   }
 
   render() {
     // const { onRouteChange } = this.props;
+    // const {assetid} = this.state;
+    // const [assetid, setAssetid] = useState("assetid");
     return (
       <body>
         <section>
@@ -53,6 +52,7 @@ class Gas extends React.Component {
                 <p className="mt-3">
                   Please check and confirm the rate Details below,
                 </p>
+
                 <div className="form-group pa4 br3 center">
                   <label>Gas Price</label>
                   <input
@@ -95,11 +95,7 @@ class Gas extends React.Component {
         </section>
         <div className="footer">
           <div className="home_container">
-            <button
-              className="start_btn mb-1"
-              id="form"
-              onClick={this.Component}
-            >
+            <button className="start_btn mb-1" onClick={this.Component}>
               Save To BlockChain
             </button>
           </div>
@@ -126,5 +122,4 @@ class Gas extends React.Component {
     );
   }
 }
-
 export default Gas;

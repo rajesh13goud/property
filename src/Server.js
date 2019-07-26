@@ -6,7 +6,8 @@ import Logo from "./components/Logo/Logo";
 import Signin from "./components/Signin/Signin";
 import ImageLink from "./components/imageLink/imageLink";
 import Gas from "./components/imageLink/gas";
-// import Blockchain from "./components/imageLink/blockchain";
+// import { Blockchain } from "./components/imageLink/saveasset";
+import Blockchain from "./components/imageLink/blockchain";
 // import { Blockchain } from "./components/imageLink/saveasset";
 // import { Blockchain } from "./components/imageLink/saveasset";
 
@@ -16,10 +17,11 @@ const initialState = {
   image: "",
   searchfield: "",
   gas: "",
-  assetid: [],
+  asset_id: "",
   imageIn: null,
   isSignedIn: false,
   isGas: false,
+  isBC: false,
   user: {
     id: "",
     name: "",
@@ -33,7 +35,6 @@ const initialState = {
     joined: new Date()
   }
 };
-
 class Server extends Component {
   constructor() {
     super();
@@ -71,9 +72,8 @@ class Server extends Component {
   };
   invoice = data => {
     this.setState({
-      data: data
+      asset_id: data.asset_id
     });
-    console.log("dasa", data);
   };
 
   onRouteChange = route => {
@@ -83,12 +83,14 @@ class Server extends Component {
       this.setState({ isSignedIn: true });
     } else if (route === "gas") {
       this.setState({ isGas: true });
+    } else if (route === "blockchain") {
+      this.setState({ isBC: true });
     }
     this.setState({ route: route });
   };
 
   render() {
-    const { isSignedIn, route } = this.state;
+    const { isSignedIn, route, asset_id, isBC } = this.state;
     return (
       <div className="App">
         <Navigation
@@ -103,7 +105,16 @@ class Server extends Component {
         ) : route === "signin" ? (
           <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
-          <Gas invoice={this.invoice} onRouteChange={this.onRouteChange} />
+          <Gas onRouteChange={this.onRouteChange} />
+        )}
+        {route === "blockchain" ? (
+          <Blockchain
+            asset_id={asset_id}
+            isBC={isBC}
+            onRouteChange={this.onRouteChange}
+          />
+        ) : (
+          route === "home"
         )}
       </div>
     );

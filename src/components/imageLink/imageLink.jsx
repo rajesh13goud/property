@@ -21,7 +21,7 @@ class ImageLink extends React.Component {
       location: "",
       address: "",
       price: "",
-      asset_id: [],
+      asset_id: "",
       redirect: false
     };
 
@@ -43,6 +43,7 @@ class ImageLink extends React.Component {
     reader.onloadend = () => {
       this.setState({ data: Buffer(reader.result) });
       console.log("buffer", this.state.data);
+      
     };
   }
   // onIdChange(e){
@@ -91,7 +92,7 @@ class ImageLink extends React.Component {
       )
       .then(result => {
         if (result["data"]) {
-          this.setState({ asset_id: result })
+          this.setState({ asset_id: result });
           this.props.invoice(result);
         }
         console.log("resdeedde", result);

@@ -1,5 +1,5 @@
 const web3 = require("./web3");
-function postdb2(assetid,content, callback) {
+function postdb2(assetid, content, callback) {
   const { Pool } = require("pg");
   // const log = require('./signin');
 
@@ -47,23 +47,37 @@ function postdb2(assetid,content, callback) {
           return res.JSON(data);
         }
         console.log("we need: " + JSON.stringify(result));
-        let blockHash = result.blockHash;
-        let blockNumber = result.blockNumber;
-        let transactionHash = result.transactionHash;
-        let gasUsed = result.gasUsed;
-        let contract = result.contract;
+        let obj = {
+          blockHash: result.blockHash,
+          blockNumber: result.blockNumber,
+          transactionHash: result.transactionHash,
+          gasUsed: result.gasUsed,
+          contract: result.contract
+        };
+
+        callback(obj);
         pool.connect();
-        pool.query("INSERT INTO invoiced(blockhash,contract,trxhash,assetid,multihash,created,doctype,gasused,blocknumber)values($1,$2,$3,$4,$5,$6,$7,$8,$9)",
-        [blockHash,contract,transactionHash,assetid,content,new Date(),'LAND DOCS',gasUsed,blockNumber],
-        (err,res) =>{
-            if(err){
-                console.log(err)
+        pool.query(
+          "INSERT INTO invoiced(blockhash,contract,trxhash,assetid,multihash,created,doctype,gasused,blocknumber)values($1,$2,$3,$4,$5,$6,$7,$8,$9)",
+          [
+            obj.blockHash,
+            obj.contract,
+            obj.transactionHash,
+            assetid,
+            content,
+            new Date(),
+            "LAND DOCS",
+            obj.gasUsed,
+            obj.blockNumber
+          ],
+          (err, res) => {
+            if (err) {
+              console.log(err);
             } else {
-                console.log('finally' + JSON.stringify(res));
-                
-                
+              console.log("finally" + JSON.stringify(res));
             }
-        })
+          }
+        );
       });
     }
   );

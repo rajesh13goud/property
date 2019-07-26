@@ -2,8 +2,8 @@ import React from "react";
 import { Nav } from "react-bootstrap";
 // import {ImageLink} from './imageLink';
 class BlockChain extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       blockHash: "",
       blockNumber: "",
@@ -11,7 +11,7 @@ class BlockChain extends React.Component {
       gasUsed: "",
       trxUsed: "",
       ref: "",
-      assetid: ""
+      asset_id: ""
     };
     // setTimeout(
     //     function() {
@@ -41,22 +41,22 @@ class BlockChain extends React.Component {
 
   async componentDidMount() {
     // this.setState({assetid: form.assetid})
-    // let assetid = 'e195a578-93a5-491e-b362-b0004aaee306'
-    let assetid = window.location.pathname.split("/")[3];
-
+    // let assetid = this.props.assetid;
+    let assetid = "28635017-b102-42eb-a3ea-90354e491879";
+    // let assetid = window.location.pathname.split("/")[3];
+    console.log("assetinbc", assetid);
     // let assetid = [ImageLink['asset_id']]
     // console.log(window.location.pathname.split("/")[2]);
-    console.log("asset in FEblock", assetid);
+    // console.log("asset in FEblock", this.props.assetid);
 
     const form = await (await fetch(
-      "http://localhost:4000/saved/" + assetid
+      "http://localhost:4000/addBlockchain/" + assetid
     )).json();
     this.setState({ blockHash: form["blockhash"] });
     this.setState({ blockNumber: form["blocknumber"] });
     this.setState({ contractAddress: form["contract"] });
     this.setState({ gasUsed: form["gasused"] });
     this.setState({ trxUsed: form["trxused"] });
-
     this.setState({
       ref: `https://ropsten.etherscan.io/tx/${this.state.trxUsed}`
     }).then(response => response.json());

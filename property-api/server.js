@@ -135,29 +135,29 @@ app.post("/sendImage", upload.any(), (req, res) => {
         res.send(assetid);
         // setTimeout(() => {
         //   res.redirect("/saved/" + assetid);
-        // }, 6000);
+        // }, 9000);
       }
     );
-  });
-  // res.redirect("/addBlockchain/" + assetid);
-});
+    // res.send(assetid)
+    // res.redirect("/addBlockchain/" + assetid);
 
-app.get("/gas", (req, res) => {
-  //  var assetid = req.assetid;
-  // let assetid = req.params.assetid;
-  // console.log('ekkade gas',assetid)
-  gasPrice.getGasPrice(result => {
-    let obj = {
-      message: result.gasPrice,
-      txCost: result.txFee,
-      assetid: req.params.assetid
-    };
-    // console.log(obj);
-    res.send(obj);
+    app.get("/gas/", (req, res) => {
+      //  var assetid = req.assetid;
 
-    // res.redirect('/ethResults/:assetid/');
+      gasPrice.getGasPrice(result => {
+        let obj = {
+          message: result.gasPrice,
+          txCost: result.txFee,
+          assetid: assetid
+        };
+        // console.log(obj);
+        res.send(obj);
+
+        // res.redirect('/ethResults/:assetid/');
+      });
+      // res.redirect('/save/'+assetid);
+    });
   });
-  // res.redirect('/save/'+assetid);
 });
 app.get("/ethResults/:assetid/", (req, res) => {
   ethResults.ethResults(req, res);
