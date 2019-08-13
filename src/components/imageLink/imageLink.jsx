@@ -5,6 +5,8 @@ import axios from "axios";
 // import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 // import {Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
+import Gas from "./gas";
+// import Gas from "./gas";
 // import Gas from './gas';
 // import useForm from 'react-hook-form';
 // import BlockChain from './blockchain';
@@ -33,7 +35,10 @@ class ImageLink extends React.Component {
     this.onAddressChange = this.onAddressChange.bind(this);
     this.onPriceChange = this.onPriceChange.bind(this);
   }
-
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('shouldComponentUpdate!', nextProps);
+  //   return nextProps.asset_id !== this.props.asset_id;
+  // }
   onImageChange(e) {
     console.log("capture file...");
     e.preventDefault();
@@ -43,7 +48,6 @@ class ImageLink extends React.Component {
     reader.onloadend = () => {
       this.setState({ data: Buffer(reader.result) });
       console.log("buffer", this.state.data);
-      
     };
   }
   // onIdChange(e){
@@ -91,9 +95,15 @@ class ImageLink extends React.Component {
         // window.location.href='/addBlockchain:/' + asset_id;
       )
       .then(result => {
-        if (result["data"]) {
-          this.setState({ asset_id: result });
-          this.props.invoice(result);
+        if (result) {
+          this.setState(
+            (prevState, prevProps) => {
+              return { asset_id: result };
+            },
+            () => console.log(this.state.asset_id)
+          );
+          // this.props.loadUser(result);
+          // this.props.invoice(result);
         }
         console.log("resdeedde", result);
 
@@ -153,6 +163,9 @@ class ImageLink extends React.Component {
                 <input
                   className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                   type="number"
+                  step="0.001"
+                  min="0"
+                  max="20"
                   name="price"
                   id="price"
                   onChange={this.onPriceChange}
@@ -175,6 +188,9 @@ class ImageLink extends React.Component {
               >
                 Add Asset
               </button>
+              {this.state.redirect ? (
+                <Gas asset_id={this.state.asset_id} />
+              ) : null}
             </fieldset>
           </div>
         </div>

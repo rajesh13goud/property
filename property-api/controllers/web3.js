@@ -249,7 +249,7 @@ function setDataBC(data,callback){
 
 
 function getDataBC(assetId,callback){
-    instance.methods.getAssetData(web3.utils.asciiToHex(assetId)).call({gas:9000000},(err,res)=>{
+    instance.methods.getAssetData(web3.utils.asciiToHex(assetId)).call({gas:90000000},(err,res)=>{
     var history = [];
     for(let i=0;i<res[0].length;i++){
     history.push({owner : web3.utils.hexToAscii(res[0][i]), date : web3.utils.hexToAscii(res[2][i])});

@@ -1,14 +1,35 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-// impo rt App from './App';
-import Server from "./Server";
 import * as serviceWorker from "./serviceWorker";
 import "tachyons";
-// import App from './App';
-// import Menu from './components/Menu/menu';
+// import Apps from "./Apps";
+import Server from "./Server";
+import Apps from "./Apps";
+// import {createBrowserHisory} from "history";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-ReactDOM.render(<Server />, document.getElementById("root"));
+// import "assets/scss/material-kit-react.scss?v=1.4.0";
+
+// import Server from "./Server";
+
+// var hist = createBrowserHisory()
+ReactDOM.render(
+  <Router>
+    <Route path="/sell" component={Server} />
+    <Route path="/buy" component={Apps} />
+  </Router>,
+  document.getElementById("root")
+);
+
+// ReactDOM.render(
+// <Router>
+//   <Switch>
+//     <Route path="/buy" component={Server} />
+//     <Route path="/sell" component={Apps} />
+//   </Switch>
+// </Router>,
+// document.getElementById("root"));
 // ReactDOM.render(<Menu />, document.getElementById(''));
 if (module.hot) {
   module.hot.accept();

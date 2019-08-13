@@ -11,6 +11,7 @@ function postdb2(assetid, content, callback) {
     port: 5432
   });
   pool.connect();
+
   pool.query(
     "SELECT assetid, ownerid, entered,price from asset WHERE assetid = ($1)",
     [assetid],
@@ -54,8 +55,20 @@ function postdb2(assetid, content, callback) {
           gasUsed: result.gasUsed,
           contract: result.contract
         };
-
         callback(obj);
+        // pool.connect();
+        // pool.query(
+        //   "UPDATE sell SET contractaddress=($1) WHERE assetid=($2)",
+        //   [obj.contract],
+        //   [assetid],
+        //   (err, res) => {
+        //     if (err) {
+        //       console.log("err", err);
+        //     } else {
+        //       console.log("respo", res);
+        //     }
+        //   }
+        // );
         pool.connect();
         pool.query(
           "INSERT INTO invoiced(blockhash,contract,trxhash,assetid,multihash,created,doctype,gasused,blocknumber)values($1,$2,$3,$4,$5,$6,$7,$8,$9)",
@@ -78,6 +91,15 @@ function postdb2(assetid, content, callback) {
             }
           }
         );
+        pool.connect();
+        // pool.query("UPDATE sell SET contractaddress=($1) WHERE assetid=($2)",
+        // [obj.contract],[assetid],(err,res) =>{
+        //   if(err){
+        //     console.log('errupdate')
+        //   } else{
+        //     console.log('update', res)
+        //   }
+        // })
       });
     }
   );

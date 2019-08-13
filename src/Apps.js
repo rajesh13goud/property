@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Buy from "./components/Buy/Buy";
+import WithDraw from "./components/Buy/metamask";
 import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
@@ -10,15 +13,11 @@ import Gas from "./components/imageLink/gas";
 // import { Blockchain } from "./components/imageLink/saveasset";
 import Blockchain from "./components/imageLink/blockchain";
 import { BrowserRouter as Router } from "react-router-dom";
-import Buy from "./components/Buy/Buy";
 import Sell from "./components/Buy/Sell";
 // import Metapay from "./components/Buy/metamask";
-import WithDraw from "./components/Buy/metamask";
 // import Load from "./components/Buy/Loader";
 import Loader from "react-loader-spinner";
-// import { Blockchain } from "./components/imageLink/saveasset";
-// import { Blockchain } from "./components/imageLink/saveasset";
-// const ThemeContext = React.createContext("light");
+
 const initialState = {
   input: "",
   route: "signin",
@@ -30,8 +29,8 @@ const initialState = {
   isGas: false,
   isBC: false,
   isLoading: false,
-  isSave: false,
   isSell: false,
+  isSave: false,
   user: {
     id: "",
     name: "",
@@ -49,29 +48,7 @@ const initialState = {
     assetid: ""
   }
 };
-// const Sell = ({ route }) => {
-//   return (
-//     <Router>
-//       <button
-//         onClick={() => (
-//           <Route
-//             path="/"
-//             render={() =>
-//               route === "save" ? (
-//                 <Redirect to="/gas" component={ImageLink} />
-//               ) : (
-//                 route === "home"
-//               )
-//             }
-//           />
-//         )}
-//       >
-//         Sell
-//       </button>
-//     </Router>
-//   );
-// };
-class Server extends Component {
+class Apps extends Component {
   constructor() {
     super();
     this.state = initialState;
@@ -105,13 +82,13 @@ class Server extends Component {
       }
     });
   };
-  // asset = data => {
-  //   this.setState({
-  //     result: {
-  //       assetid: data.assetid
-  //     }
-  //   });
-  // };
+  asset = data => {
+    this.setState({
+      result: {
+        assetid: data.assetid
+      }
+    });
+  };
   onRouteChange = route => {
     if (route === "signout") {
       this.setState(initialState);
@@ -121,14 +98,60 @@ class Server extends Component {
       this.setState({ isGas: true });
     } else if (route === "blockchain") {
       this.setState({ isBC: true });
+    } else if (route === "save") {
+      this.setState({ isSell: true });
     } else if (route === "metapay") {
       this.setState({ isSave: true });
-    } else if (route === "sell") {
-      this.setState({ isSell: true });
     }
     this.setState({ route: route });
   };
-
+  //   render() {
+  //     const { isSignedIn, route, isBC, isLoading } = this.state;
+  //     return (
+  //       <Router>
+  //         <div className="container">
+  //           <nav className="navbar navbar-expand-lg navbar-light bg-light">
+  //             <a
+  //               className="navbar-brand"
+  //               href="https://heptagon.in"
+  //               target="blank"
+  //             >
+  //               <img src={logo} width="30" height="30" alt="PropertyManagement" />
+  //             </a>
+  //             <Link to="/" className="Navbar-brand">
+  //               Property Buy/Sell
+  //             </Link>
+  //             <div className="collpase navbar-collapse">
+  //               <ul className="navbar-nav mr-auto">
+  //                 <li className="navbar-item">
+  //                   <Link to="/" className="nav-link">
+  //                     signin
+  //                   </Link>
+  //                 </li>
+  //                 <li className="navbar-item">
+  //                   <Link to="/buy" className="nav-link">
+  //                     Buy
+  //                   </Link>
+  //                 </li>
+  //                 <li className="navbar-item">
+  //                   <Link to="/add" className="nav-link">
+  //                     Sell
+  //                   </Link>
+  //                 </li>
+  //               </ul>
+  //             </div>
+  //           </nav>
+  //           <br />
+  //           <Route path="/home" exact component={Navigation} render={props => <Signin {...props} /> } />
+  //           {/* <Redirect from="/" to="/signin" /> */}
+  //           <Route path="/signin" component={Signin} loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+  //           <Route path="/ass" component={ImageLink} />
+  //           <Route path="/buy" component={Gas} />
+  //           <Route path="/save" component={Blockchain} />
+  //         </div>
+  //       </Router>
+  //     );
+  //   }
   render() {
     const { isSignedIn, route, isLoading } = this.state;
     if (isLoading) {
@@ -144,36 +167,22 @@ class Server extends Component {
           {route === "home" ? (
             <div>
               <Logo />
-
-              <ImageLink
-                assetid={this.props.asset_id}
-                onRouteChange={this.onRouteChange}
-              />
+              <Buy onRouteChange={this.onRouteChange} />
             </div>
           ) : route === "signin" ? (
             <Signin
               loadUser={this.loadUser}
               onRouteChange={this.onRouteChange}
             />
+          ) : (
+            null
+          )}
+          {route === "metapay" ? (
+            <WithDraw onRouteChange={this.onRouteChange} />
           ) : null}
-          {route === "register" ? <Register
-            loadUser={this.loadUser}
-            onRouteChange={this.onRouteChange}
-          />:null}
-          {route === "gas" ? <Gas onRouteChange={this.onRouteChange} /> : null}
-          {route === "blockchain" ? (
-            <Blockchain
-              isLoading={isLoading}
-              onRouteChange={this.onRouteChange}
-            />
-          ) : null}
-          {route === "sell" ? <Sell onRouteChange={this.onRouteChange} /> : null}
-          {route === "metapay" ? <WithDraw onRouteChange={this.onRouteChange} /> : null}
-
-          {route === "save" ? <Buy onRouteChange={this.onRouteChange} /> : null}
         </div>
       </Router>
     );
   }
 }
-export default Server;
+export default Apps;

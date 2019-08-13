@@ -1,6 +1,6 @@
 // const web3 = require('./web3');
 
-function postdb1(assetid,  callback) {
+function postdb1(assetid, callback) {
   // let con = data;
   const { Pool } = require("pg");
   let _assetid = assetid;
@@ -53,7 +53,7 @@ function postdb1(assetid,  callback) {
           gasUsed: res["rows"][0]["gasused"],
           trxUsed: res["rows"][0]["trxhash"]
         };
-        console.log("mama" + JSON.stringify(obj));
+        console.log("mama" + JSON.stringify(obj.contract));
         callback(obj);
       }
     );

@@ -35,6 +35,8 @@ const img = require("./controllers/img");
 const form = require("./controllers/form");
 const form1 = require("./controllers/form2");
 const form3 = require("./controllers/form3");
+const sellItem = require("./controllers/sell");
+const buyPlot = require("./controllers/buyProp");
 
 const ocrResults = require("./controllers/ocrResults");
 
@@ -127,12 +129,12 @@ app.post("/sendImage", upload.any(), (req, res) => {
       location,
       price,
       assetid,
-      result => {
-        if (result.status == "error") {
-          return res.send(result);
+      data => {
+        if (data.status == "error") {
+          return res.send(data);
         }
-        console.log("resss", result);
-        res.send(assetid);
+        console.log("resss", data);
+        res.send(data.asset_id);
         // setTimeout(() => {
         //   res.redirect("/saved/" + assetid);
         // }, 9000);
@@ -140,15 +142,14 @@ app.post("/sendImage", upload.any(), (req, res) => {
     );
     // res.send(assetid)
     // res.redirect("/addBlockchain/" + assetid);
-
     app.get("/gas/", (req, res) => {
       //  var assetid = req.assetid;
-
       gasPrice.getGasPrice(result => {
         let obj = {
           message: result.gasPrice,
           txCost: result.txFee,
-          assetid: assetid
+          assetid: assetid,
+          ipfshash: multihash
         };
         // console.log(obj);
         res.send(obj);
@@ -157,12 +158,54 @@ app.post("/sendImage", upload.any(), (req, res) => {
       });
       // res.redirect('/save/'+assetid);
     });
+    app.get("/sell/", (req, res) => {
+      sellItem.sell(assetid, result => {
+        let data = {
+          ipfshash: result.ipfshash,
+          assetid: result.assetid,
+          ownername: result.ownername,
+          address: result.address,
+          price: result.price,
+          contractaddress: result.contractaddress
+        };
+        res.send(data);
+        // console.log(data, "sent to sell");
+        // buyPlot.buyPlots(data, result => {
+        //   console.log(JSON.stringify(result));
+        //   res.json(result);
+        // });
+      });
+    });
+    app.get("/buy/", (req, res) => {
+      // var assetid = 0
+      // var price = result.price;
+      let data = {
+        assetid: 0,
+        price: 2,
+        ownername: 'rajesh'
+      };
+      buyPlot.buyPlots(data,result => {
+       
+        // console.log(JSON.stringify(result));
+        res.send(result);
+      });
+    });
   });
 });
 app.get("/ethResults/:assetid/", (req, res) => {
   ethResults.ethResults(req, res);
 });
 // app.get("/addBlockchain/:assetid/", (req, res) => {addBC.addBCHandler(req,res)});
+
+app.get("/saved/:assetid", function(req, res) {
+  // let cookie = req.cookies;
+  let assetid = req.params.assetid;
+  console.log("asede", assetid);
+  let multihash = req.params.multihash;
+  form3.postdb2(assetid, multihash, result => {
+    res.send(result);
+  });
+});
 app.get("/addBlockchain/:assetid", (req, res) => {
   let assetid = req.params.assetid;
   console.log("asset in BEaddBlock", assetid);
@@ -180,31 +223,6 @@ app.get("/addBlockchain/:assetid", (req, res) => {
   });
 });
 
-app.get("/save/:assetid", function(req, res) {
-  // let data = req.result;
-  // console.log(data,'data')
-
-  // let assetid = cookie;
-
-  // console.log("save", assetid);
-  // console.log(req.get("Cookie"));
-  let assetid = req.param.assetid;
-  console.log("assetid is", assetid);
-  // res.redirect("/saved/" + assetid);
-
-  // setTimeout(() => {
-  //   res.redirect("/addblockchain/" + assetid);
-  // }, 45000);
-});
-app.get("/saved/:assetid", function(req, res) {
-  let cookie = req.cookies;
-  let assetid = req.params.assetid;
-  console.log("asede", assetid);
-  let multihash = req.params.multihash;
-  form3.postdb2(assetid, multihash, result => {
-    res.send(result);
-  });
-});
 app.listen(4000, () => {
   console.log("its working");
 });
